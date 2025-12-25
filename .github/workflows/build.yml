@@ -16,7 +16,7 @@ jobs:
       matrix:
         toolchain: [gcc, clang]
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     container: archlinux:base-devel
     steps:
     - name: Checkout
