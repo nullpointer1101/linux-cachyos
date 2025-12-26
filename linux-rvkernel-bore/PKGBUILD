@@ -357,16 +357,7 @@ prepare() {
     if [ "$_cc_harder" = "yes" ]; then
         echo "Enabling KBUILD_CFLAGS -O3..."
         scripts/config -d CC_OPTIMIZE_FOR_PERFORMANCE \
-            -e CC_OPTIMIZE_FOR_PERFORMANCE_O3
-    fi
-
-    ### CI-only stuff
-    if _is_ci_build; then
-        echo "Detected build inside CI"
-
-        scripts/config \
-            -d CC_OPTIMIZE_FOR_PERFORMANCE_O3 \
-            -e CC_OPTIMIZE_FOR_SIZE \
+            -e CC_OPTIMIZE_FOR_PERFORMANCE_O3 \
             -d DEBUG_KERNEL \
             -e DEBUG_INFO_REDUCED
     fi
