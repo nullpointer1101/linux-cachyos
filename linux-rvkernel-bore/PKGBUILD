@@ -57,6 +57,9 @@
 ### Enable TCP_CONG_BBR3
 : "${_tcp_bbr3:=yes}"
 
+### Set CONFIG_UCLAMP_BUCKETS_COUNT value, default value is 5
+: "${_uclamp_buckets:=20}"
+
 ### Running with a 1000HZ, 750Hz, 600 Hz, 500Hz, 300Hz, 250Hz and 100Hz tick rate
 : "${_HZ_ticks:=1000}"
 
@@ -327,6 +330,9 @@ prepare() {
         scripts/config -d CPU_FREQ_DEFAULT_GOV_SCHEDUTIL \
             -e CPU_FREQ_DEFAULT_GOV_PERFORMANCE
     fi
+
+    ### Set CONFIG_UCLAMP_BUCKETS_COUNT
+    scripts/config --set-val CONFIG_UCLAMP_BUCKETS_COUNT ${_uclamp_buckets}
 
     ### Select tick type
     case "$_tickrate" in
