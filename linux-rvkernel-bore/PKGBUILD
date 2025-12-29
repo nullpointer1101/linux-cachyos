@@ -63,6 +63,9 @@
 ### Apply Kcompressd-Unofficial patch
 : "${_kcompressd_unofficial:=yes}"
 
+### Set ADIOS as default I/O Scheduler
+: "${_adios:=yes}"
+
 ### Running with a 1000HZ, 750Hz, 600 Hz, 500Hz, 300Hz, 250Hz and 100Hz tick rate
 : "${_HZ_ticks:=1000}"
 
@@ -339,7 +342,14 @@ prepare() {
     fi
 
     ### Set CONFIG_UCLAMP_BUCKETS_COUNT
+    echo "Set CONFIG_UCLAMP_BUCKETS_COUNT to $_uclamp_buckets..."
     scripts/config --set-val CONFIG_UCLAMP_BUCKETS_COUNT ${_uclamp_buckets}
+
+    ### Set ADIOS as default I/O Scheduler
+    if [ $_adios = "yes" ]; then
+        echo "Set ADIOS as default I/O Scheduler..."
+        scripts/config -e CONFIG_MQ_IOSCHED_DEFAULT_ADIOS
+    fi
 
     ### Select tick type
     case "$_tickrate" in
