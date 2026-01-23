@@ -1,9 +1,9 @@
-name: Build and lint
+name: Build RvKernel EEVDF
 on:
   push:
     paths:
-      - 'linux-rvkernel-bore/PKGBUILD'
-      - '.github/workflows/build.yml'
+      - 'linux-rvkernel-eevdf/PKGBUILD'
+      - '.github/workflows/rvkernel-eevdf.yml'
   workflow_dispatch:
 
 env:
@@ -11,7 +11,7 @@ env:
 
 jobs:
   build:
-    name: linux-rvkernel-bore
+    name: linux-rvkernel-eevdf
     strategy:
       matrix:
         toolchain: [gcc, clang]
@@ -63,11 +63,11 @@ jobs:
         _build_nvidia_open: yes
         _use_llvm_lto: ${{ matrix.toolchain == 'gcc' && 'none' || 'thin' }}
       run: |
-          cd "linux-rvkernel-bore"
+          cd "linux-rvkernel-eevdf"
           sudo -H -E -u builder makepkg --skipchecksums --syncdeps --noconfirm
     - name: Upload package to artifacts
       id: upload
       uses: actions/upload-artifact@v4
       with:
-        name: linux-rvkernel-bore-${{ matrix.toolchain }}
-        path: linux-rvkernel-bore/*.pkg.tar.zst*
+        name: linux-rvkernel-eevdf-${{ matrix.toolchain }}
+        path: linux-rvkernel-eevdf/*.pkg.tar.zst*
